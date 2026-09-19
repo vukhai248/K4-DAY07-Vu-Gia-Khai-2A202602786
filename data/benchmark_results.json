@@ -1,0 +1,258 @@
+{
+  "cosine_experiment": [
+    {
+      "pair": 1,
+      "sent_a": "Sinh viên đăng ký học phần trên hệ thống qldt của Học viện.",
+      "sent_b": "Học sinh đăng ký môn học trực tuyến qua cổng đào tạo.",
+      "predicted": "Cao",
+      "actual_score": 0.0833,
+      "correct": "Đúng"
+    },
+    {
+      "pair": 2,
+      "sent_a": "Thời hạn nộp đơn phúc khảo bài thi là trong vòng 03 ngày làm việc.",
+      "sent_b": "Sinh viên khiếu nại điểm thi kết thúc học phần trong 3 ngày.",
+      "predicted": "Cao",
+      "actual_score": -0.229,
+      "correct": "Gần đúng"
+    },
+    {
+      "pair": 3,
+      "sent_a": "Học bổng loại Xuất sắc yêu cầu điểm GPA từ 3.60 trở lên.",
+      "sent_b": "Nội quy ký túc xá nghiêm cấm nấu ăn bằng bếp điện trong phòng.",
+      "predicted": "Thấp",
+      "actual_score": -0.0169,
+      "correct": "Đúng"
+    },
+    {
+      "pair": 4,
+      "sent_a": "Sinh viên nợ học phí quá hạn sẽ bị cấm thi kết thúc học phần.",
+      "sent_b": "Thời gian mở cửa thư viện từ 07h30 sáng đến 21h00 tối.",
+      "predicted": "Thấp",
+      "actual_score": 0.0436,
+      "correct": "Gần đúng"
+    },
+    {
+      "pair": 5,
+      "sent_a": "Giảng viên phải hoàn thành việc chấm bài thi trong 07 ngày làm việc.",
+      "sent_b": "Cán bộ chấm thi nộp bảng điểm gốc và túi bài thi về Trung tâm Khảo thí.",
+      "predicted": "Cao",
+      "actual_score": 0.0279,
+      "correct": "Đúng"
+    }
+  ],
+  "chunking_experiment": [
+    {
+      "doc_name": "ptit-dang-ky-hoc-phan",
+      "fixed_size": {
+        "count": 11,
+        "avg_length": 192.1818181818182,
+        "chunks": [
+          "---\ndoc_id: ptit-dang-ky-hoc-phan\ntitle: Quy định và Hướng dẫn Đăng ký học phần PTIT\naudience: student\ndepartment: academic-affairs\ncategory: registration\nlanguage: vi\nsource_url: https://giaovu.ptit.",
+          "https://giaovu.ptit.edu.vn/huong-dan-dang-ky-hoc-phan/\nretrieved_at: 2026-09-19\ndocument_version: 2026-QĐ838\n---\n\n# Quy định và Hướng dẫn Đăng ký học phần PTIT\n\n## 1. Hệ thống và Phương thức thực hiện",
+          "hương thức thực hiện\n- Sinh viên Học viện Công nghệ Bưu chính Viễn thông (PTIT) thực hiện đăng ký học phần trực tuyến qua Cổng quản lý đào tạo tại địa chỉ: `https://qldt.ptit.edu.vn` hoặc ứng dụng di ",
+          "n` hoặc ứng dụng di động **Slink**.\n- Tài khoản đăng nhập là mã sinh viên và mật khẩu do Học viện cấp kèm email trường định dạng `@ptit.edu.vn`.\n\n## 2. Kế hoạch và Các đợt đăng ký trong học kỳ\nMỗi học",
+          "trong học kỳ\nMỗi học kỳ chính gồm 2 đợt đăng ký bắt buộc:\n1. **Đợt 1 (Đăng ký theo tiến trình):** Dành cho sinh viên đăng ký các học phần đúng lộ trình chuẩn của khóa học, ngành đào tạo.\n2. **Đợt 2 (Đ",
+          "o tạo.\n2. **Đợt 2 (Đăng ký điều chỉnh, học lại, học cải thiện):** Sinh viên được phép thay đổi lớp học phần, đăng ký thêm học phần học lại (điểm F), học cải thiện điểm (điểm D, C), hoặc xin rút bớt họ",
+          " hoặc xin rút bớt học phần.\n\n## 3. Quy định về Khối lượng học tập (Số tín chỉ)\n- **Học kỳ chính:**\n  + Sinh viên chương trình Cử nhân: Tối thiểu **15 tín chỉ**, tối đa **25 tín chỉ**.\n  + Sinh viên ch",
+          "**.\n  + Sinh viên chương trình Kỹ sư: Tối thiểu **16 tín chỉ**, tối đa **25 tín chỉ**.\n  + Sinh viên xếp hạng học lực yếu ở học kỳ trước: Chỉ được đăng ký tối đa **14 tín chỉ** để cải thiện kết quả.\n-",
+          "cải thiện kết quả.\n- **Học kỳ phụ (Học kỳ hè):** Đăng ký tối đa **12 tín chỉ**, không quy định mức tối thiểu.\n\n## 4. Điều kiện Tiên quyết và Rút học phần\n- Sinh viên chỉ được phép đăng ký học phần kế ",
+          "đăng ký học phần kế tiếp nếu đã hoàn thành và đạt điểm học phần tiên quyết của môn học đó.\n- Sinh viên được rút học phần trong vòng **02 tuần đầu** của học kỳ chính và **01 tuần đầu** của học kỳ hè. K",
+          "u** của học kỳ hè. Khi rút học phần hợp lệ, sinh viên nhận điểm R và không được hoàn trả học phí của học phần đó.\n"
+        ]
+      },
+      "by_sentences": {
+        "count": 6,
+        "avg_length": 316.8333333333333,
+        "chunks": [
+          "---\ndoc_id: ptit-dang-ky-hoc-phan\ntitle: Quy định và Hướng dẫn Đăng ký học phần PTIT\naudience: student\ndepartment: academic-affairs\ncategory: registration\nlanguage: vi\nsource_url: https://giaovu.ptit.edu.vn/huong-dan-dang-ky-hoc-phan/\nretrieved_at: 2026-09-19\ndocument_version: 2026-QĐ838\n---\n\n# Quy định và Hướng dẫn Đăng ký học phần PTIT\n\n## 1. Hệ thống và Phương thức thực hiện\n- Sinh viên Học viện Công nghệ Bưu chính Viễn thông (PTIT) thực hiện đăng ký học phần trực tuyến qua Cổng quản lý đào tạo tại địa chỉ: `https://qldt.ptit.edu.vn` hoặc ứng dụng di động **Slink**. - Tài khoản đăng nhập là mã sinh viên và mật khẩu do Học viện cấp kèm email trường định dạng `@ptit.edu.vn`.",
+          "## 2. Kế hoạch và Các đợt đăng ký trong học kỳ\nMỗi học kỳ chính gồm 2 đợt đăng ký bắt buộc:\n1. **Đợt 1 (Đăng ký theo tiến trình):** Dành cho sinh viên đăng ký các học phần đúng lộ trình chuẩn của khóa học, ngành đào tạo.",
+          "2. **Đợt 2 (Đăng ký điều chỉnh, học lại, học cải thiện):** Sinh viên được phép thay đổi lớp học phần, đăng ký thêm học phần học lại (điểm F), học cải thiện điểm (điểm D, C), hoặc xin rút bớt học phần. ## 3.",
+          "Quy định về Khối lượng học tập (Số tín chỉ)\n- **Học kỳ chính:**\n  + Sinh viên chương trình Cử nhân: Tối thiểu **15 tín chỉ**, tối đa **25 tín chỉ**. + Sinh viên chương trình Kỹ sư: Tối thiểu **16 tín chỉ**, tối đa **25 tín chỉ**. + Sinh viên xếp hạng học lực yếu ở học kỳ trước: Chỉ được đăng ký tối đa **14 tín chỉ** để cải thiện kết quả.",
+          "- **Học kỳ phụ (Học kỳ hè):** Đăng ký tối đa **12 tín chỉ**, không quy định mức tối thiểu. ## 4. Điều kiện Tiên quyết và Rút học phần\n- Sinh viên chỉ được phép đăng ký học phần kế tiếp nếu đã hoàn thành và đạt điểm học phần tiên quyết của môn học đó.",
+          "- Sinh viên được rút học phần trong vòng **02 tuần đầu** của học kỳ chính và **01 tuần đầu** của học kỳ hè. Khi rút học phần hợp lệ, sinh viên nhận điểm R và không được hoàn trả học phí của học phần đó."
+        ]
+      },
+      "recursive": {
+        "count": 15,
+        "avg_length": 126.2,
+        "chunks": [
+          "---\ndoc_id: ptit-dang-ky-hoc-phan\ntitle: Quy định và Hướng dẫn Đăng ký học phần PTIT\naudience: student\ndepartment: academic-affairs\ncategory: registration\nlanguage: vi",
+          "source_url: https://giaovu.ptit.edu.vn/huong-dan-dang-ky-hoc-phan/\nretrieved_at: 2026-09-19\ndocument_version: 2026-QĐ838\n---",
+          "# Quy định và Hướng dẫn Đăng ký học phần PTIT",
+          "## 1. Hệ thống và Phương thức thực hiện",
+          "- Sinh viên Học viện Công nghệ Bưu chính Viễn thông (PTIT) thực hiện đăng ký học phần trực tuyến qua Cổng quản lý đào tạo tại địa chỉ: `https://qldt.ptit.edu.vn` hoặc ứng dụng di động **Slink**.",
+          "- Tài khoản đăng nhập là mã sinh viên và mật khẩu do Học viện cấp kèm email trường định dạng `@ptit.edu.vn`.",
+          "## 2. Kế hoạch và Các đợt đăng ký trong học kỳ\nMỗi học kỳ chính gồm 2 đợt đăng ký bắt buộc:",
+          "1. **Đợt 1 (Đăng ký theo tiến trình):** Dành cho sinh viên đăng ký các học phần đúng lộ trình chuẩn của khóa học, ngành đào tạo.",
+          "2. **Đợt 2 (Đăng ký điều chỉnh, học lại, học cải thiện):** Sinh viên được phép thay đổi lớp học phần, đăng ký thêm học phần học lại (điểm F), học cải thiện điểm (điểm D, C), hoặc xin rút bớt học phần.",
+          "## 3. Quy định về Khối lượng học tập (Số tín chỉ)\n- **Học kỳ chính:**\n  + Sinh viên chương trình Cử nhân: Tối thiểu **15 tín chỉ**, tối đa **25 tín chỉ**.",
+          "  + Sinh viên chương trình Kỹ sư: Tối thiểu **16 tín chỉ**, tối đa **25 tín chỉ**.\n  + Sinh viên xếp hạng học lực yếu ở học kỳ trước: Chỉ được đăng ký tối đa **14 tín chỉ** để cải thiện kết quả.",
+          "- **Học kỳ phụ (Học kỳ hè):** Đăng ký tối đa **12 tín chỉ**, không quy định mức tối thiểu.",
+          "## 4. Điều kiện Tiên quyết và Rút học phần\n- Sinh viên chỉ được phép đăng ký học phần kế tiếp nếu đã hoàn thành và đạt điểm học phần tiên quyết của môn học đó.",
+          "- Sinh viên được rút học phần trong vòng **02 tuần đầu** của học kỳ chính và **01 tuần đầu** của học kỳ hè",
+          "Khi rút học phần hợp lệ, sinh viên nhận điểm R và không được hoàn trả học phí của học phần đó."
+        ]
+      }
+    },
+    {
+      "doc_name": "ptit-phuc-khao-diem-thi",
+      "fixed_size": {
+        "count": 11,
+        "avg_length": 187.54545454545453,
+        "chunks": [
+          "---\ndoc_id: ptit-phuc-khao-diem-thi\ntitle: Quy định Phúc khảo bài thi kết thúc học phần PTIT\naudience: student\ndepartment: examination\ncategory: appeals\nlanguage: vi\nsource_url: https://giaovu.ptit.ed",
+          "tps://giaovu.ptit.edu.vn/quy-dinh-ve-phuc-khao-diem-thi/\nretrieved_at: 2026-09-19\ndocument_version: 2026-KT\n---\n\n# Quy định Phúc khảo bài thi kết thúc học phần PTIT\n\n## 1. Phạm vi và Đối tượng áp dụng",
+          "và Đối tượng áp dụng\n- Quy định áp dụng cho tất cả sinh viên các hệ đào tạo chính quy tại Học viện có nguyện vọng khiếu nại, xem lại kết quả bài thi kết thúc học phần.\n- **Hình thức thi được phúc khảo",
+          "c thi được phúc khảo:** Tự luận, bài tập lớn, tiểu luận.\n- **Hình thức thi KHÔNG nhận phúc khảo:** Thi trắc nghiệm khách quan trên máy tính và thi vấn đáp trực tiếp.\n\n## 2. Thời hạn và Thủ tục gửi yêu",
+          "n và Thủ tục gửi yêu cầu phúc khảo\n- **Thời hạn gửi yêu cầu:** Trong vòng **03 ngày làm việc** kể từ ngày Trung tâm Khảo thí công bố điểm thi chính thức trên phần mềm Slink. Quá thời hạn trên, hệ thốn",
+          "ời hạn trên, hệ thống tự động khóa cổng và mọi khiếu nại không được thụ lý.\n- **Quy trình nộp đơn:**\n  1. Sinh viên đăng nhập vào hệ thống Slink bằng tài khoản trường.\n  2. Chọn mục `Khảo thí` -> `Đơn",
+          "c `Khảo thí` -> `Đơn phúc khảo bài thi`.\n  3. Chọn học phần cần phúc khảo và điền lý do chi tiết.\n  4. Thanh toán lệ phí phúc khảo theo thông báo qua ví điện tử/tài khoản định danh.\n\n## 3. Quy trình c",
+          ".\n\n## 3. Quy trình chấm phúc khảo và Điều chỉnh điểm\n- Trung tâm Khảo thí và Đảm bảo chất lượng giáo dục tiếp nhận danh sách, rút bài thi gốc và tổ chức chấm phúc khảo độc lập với 02 cán bộ chấm thi m",
+          "02 cán bộ chấm thi mới.\n- **Xử lý kết quả:**\n  + Nếu kết quả chấm lại lệch từ **0.5 điểm trở lên** (theo thang điểm 10) so với điểm ban đầu, Trưởng bộ môn và 02 giảng viên chấm lại sẽ ký biên bản điều",
+          " sẽ ký biên bản điều chỉnh điểm chính thức cho sinh viên.\n  + Nếu kết quả chấm lại tăng điểm, sinh viên được hoàn lại 100% lệ phí phúc khảo đã nộp.\n  + Kết quả phúc khảo được công bố sau tối đa **10 n",
+          "bố sau tối đa **10 ngày làm việc** kể từ ngày hết hạn nộp đơn.\n"
+        ]
+      },
+      "by_sentences": {
+        "count": 7,
+        "avg_length": 263.42857142857144,
+        "chunks": [
+          "---\ndoc_id: ptit-phuc-khao-diem-thi\ntitle: Quy định Phúc khảo bài thi kết thúc học phần PTIT\naudience: student\ndepartment: examination\ncategory: appeals\nlanguage: vi\nsource_url: https://giaovu.ptit.edu.vn/quy-dinh-ve-phuc-khao-diem-thi/\nretrieved_at: 2026-09-19\ndocument_version: 2026-KT\n---\n\n# Quy định Phúc khảo bài thi kết thúc học phần PTIT\n\n## 1. Phạm vi và Đối tượng áp dụng\n- Quy định áp dụng cho tất cả sinh viên các hệ đào tạo chính quy tại Học viện có nguyện vọng khiếu nại, xem lại kết quả bài thi kết thúc học phần. - **Hình thức thi được phúc khảo:** Tự luận, bài tập lớn, tiểu luận.",
+          "- **Hình thức thi KHÔNG nhận phúc khảo:** Thi trắc nghiệm khách quan trên máy tính và thi vấn đáp trực tiếp. ## 2. Thời hạn và Thủ tục gửi yêu cầu phúc khảo\n- **Thời hạn gửi yêu cầu:** Trong vòng **03 ngày làm việc** kể từ ngày Trung tâm Khảo thí công bố điểm thi chính thức trên phần mềm Slink.",
+          "Quá thời hạn trên, hệ thống tự động khóa cổng và mọi khiếu nại không được thụ lý. - **Quy trình nộp đơn:**\n  1. Sinh viên đăng nhập vào hệ thống Slink bằng tài khoản trường.",
+          "2. Chọn mục `Khảo thí` -> `Đơn phúc khảo bài thi`. 3.",
+          "Chọn học phần cần phúc khảo và điền lý do chi tiết. 4. Thanh toán lệ phí phúc khảo theo thông báo qua ví điện tử/tài khoản định danh.",
+          "## 3. Quy trình chấm phúc khảo và Điều chỉnh điểm\n- Trung tâm Khảo thí và Đảm bảo chất lượng giáo dục tiếp nhận danh sách, rút bài thi gốc và tổ chức chấm phúc khảo độc lập với 02 cán bộ chấm thi mới. - **Xử lý kết quả:**\n  + Nếu kết quả chấm lại lệch từ **0.5 điểm trở lên** (theo thang điểm 10) so với điểm ban đầu, Trưởng bộ môn và 02 giảng viên chấm lại sẽ ký biên bản điều chỉnh điểm chính thức cho sinh viên.",
+          "+ Nếu kết quả chấm lại tăng điểm, sinh viên được hoàn lại 100% lệ phí phúc khảo đã nộp. + Kết quả phúc khảo được công bố sau tối đa **10 ngày làm việc** kể từ ngày hết hạn nộp đơn."
+        ]
+      },
+      "recursive": {
+        "count": 14,
+        "avg_length": 131.71428571428572,
+        "chunks": [
+          "---\ndoc_id: ptit-phuc-khao-diem-thi\ntitle: Quy định Phúc khảo bài thi kết thúc học phần PTIT\naudience: student\ndepartment: examination\ncategory: appeals\nlanguage: vi",
+          "source_url: https://giaovu.ptit.edu.vn/quy-dinh-ve-phuc-khao-diem-thi/\nretrieved_at: 2026-09-19\ndocument_version: 2026-KT\n---",
+          "# Quy định Phúc khảo bài thi kết thúc học phần PTIT",
+          "## 1. Phạm vi và Đối tượng áp dụng\n- Quy định áp dụng cho tất cả sinh viên các hệ đào tạo chính quy tại Học viện có nguyện vọng khiếu nại, xem lại kết quả bài thi kết thúc học phần.",
+          "- **Hình thức thi được phúc khảo:** Tự luận, bài tập lớn, tiểu luận.\n- **Hình thức thi KHÔNG nhận phúc khảo:** Thi trắc nghiệm khách quan trên máy tính và thi vấn đáp trực tiếp.",
+          "## 2. Thời hạn và Thủ tục gửi yêu cầu phúc khảo",
+          "- **Thời hạn gửi yêu cầu:** Trong vòng **03 ngày làm việc** kể từ ngày Trung tâm Khảo thí công bố điểm thi chính thức trên phần mềm Slink",
+          "Quá thời hạn trên, hệ thống tự động khóa cổng và mọi khiếu nại không được thụ lý.",
+          "- **Quy trình nộp đơn:**\n  1. Sinh viên đăng nhập vào hệ thống Slink bằng tài khoản trường.\n  2. Chọn mục `Khảo thí` -> `Đơn phúc khảo bài thi`.",
+          "  3. Chọn học phần cần phúc khảo và điền lý do chi tiết.\n  4. Thanh toán lệ phí phúc khảo theo thông báo qua ví điện tử/tài khoản định danh.",
+          "## 3. Quy trình chấm phúc khảo và Điều chỉnh điểm\n- Trung tâm Khảo thí và Đảm bảo chất lượng giáo dục tiếp nhận danh sách, rút bài thi gốc và tổ chức chấm phúc khảo độc lập với 02 cán bộ chấm thi mới.",
+          "- **Xử lý kết quả:**",
+          "  + Nếu kết quả chấm lại lệch từ **0.5 điểm trở lên** (theo thang điểm 10) so với điểm ban đầu, Trưởng bộ môn và 02 giảng viên chấm lại sẽ ký biên bản điều chỉnh điểm chính thức cho sinh viên.",
+          "  + Nếu kết quả chấm lại tăng điểm, sinh viên được hoàn lại 100% lệ phí phúc khảo đã nộp.\n  + Kết quả phúc khảo được công bố sau tối đa **10 ngày làm việc** kể từ ngày hết hạn nộp đơn."
+        ]
+      }
+    },
+    {
+      "doc_name": "ptit-hoc-bong-khuyen-khich",
+      "fixed_size": {
+        "count": 10,
+        "avg_length": 194.3,
+        "chunks": [
+          "---\ndoc_id: ptit-hoc-bong-khuyen-khich\ntitle: Quy định xét cấp Học bổng khuyến khích học tập PTIT\naudience: student\ndepartment: student-affairs\ncategory: scholarship\nlanguage: vi\nsource_url: https://c",
+          "ource_url: https://ctsv.ptit.edu.vn/hoc-bong-khuyen-khich-hoc-tap/\nretrieved_at: 2026-09-19\ndocument_version: 2026-CTSV\n---\n\n# Quy định xét cấp Học bổng khuyến khích học tập PTIT\n\n## 1. Đối tượng và Đ",
+          "## 1. Đối tượng và Điều kiện chung\n- Áp dụng cho sinh viên đại học chính quy đang theo học trong thời gian đào tạo theo kế hoạch chuẩn của khóa học.\n- Không áp dụng cho sinh viên đang trong thời gian ",
+          "ang trong thời gian tạm dừng học tập, bị kỷ luật từ mức khiển trách trở lên trong học kỳ xét.\n\n## 2. Tiêu chuẩn phân loại học bổng\nHọc bổng khuyến khích học tập được xét theo từng học kỳ dựa trên kết ",
+          "học kỳ dựa trên kết quả học tập (GPA thang 4) và điểm rèn luyện:\n- **Học bổng loại Xuất sắc:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **3.60 trở lên**.\n  + Điểm rèn luyện đạt từ **90 điểm trở ",
+          "ạt từ **90 điểm trở lên** (loại Xuất sắc).\n  + Mức học bổng: Bằng 120% mức học phí chuẩn của học kỳ.\n- **Học bổng loại Giỏi:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **3.20 đến 3.59**.\n  + Điể",
+          " đến 3.59**.\n  + Điểm rèn luyện đạt từ **80 đến 89 điểm** (loại Tốt).\n  + Mức học bổng: Bằng 100% mức học phí chuẩn của học kỳ.\n- **Học bổng loại Khá:**\n  + Điểm trung bình chung học tập (GPA) đạt từ ",
+          "ọc tập (GPA) đạt từ **2.50 đến 3.19**.\n  + Điểm rèn luyện đạt từ **70 đến 79 điểm** (loại Khá).\n  + Mức học bổng: Bằng 80% mức học phí chuẩn của học kỳ.\n\n## 3. Điều kiện tiên quyết bắt buộc\n- Trong họ",
+          " bắt buộc\n- Trong học kỳ xét, sinh viên phải đăng ký khối lượng học tập tối thiểu **15 tín chỉ** (không tính học kỳ phụ).\n- Không có bất kỳ học phần nào bị điểm **F** (học lại) trong học kỳ xét.\n- Dan",
+          "ng học kỳ xét.\n- Danh sách xét duyệt được xếp theo thứ tự ưu tiên từ cao xuống thấp theo GPA cho đến khi hết quỹ học bổng của từng khoa/ngành.\n"
+        ]
+      },
+      "by_sentences": {
+        "count": 6,
+        "avg_length": 290.5,
+        "chunks": [
+          "---\ndoc_id: ptit-hoc-bong-khuyen-khich\ntitle: Quy định xét cấp Học bổng khuyến khích học tập PTIT\naudience: student\ndepartment: student-affairs\ncategory: scholarship\nlanguage: vi\nsource_url: https://ctsv.ptit.edu.vn/hoc-bong-khuyen-khich-hoc-tap/\nretrieved_at: 2026-09-19\ndocument_version: 2026-CTSV\n---\n\n# Quy định xét cấp Học bổng khuyến khích học tập PTIT\n\n## 1. Đối tượng và Điều kiện chung\n- Áp dụng cho sinh viên đại học chính quy đang theo học trong thời gian đào tạo theo kế hoạch chuẩn của khóa học. - Không áp dụng cho sinh viên đang trong thời gian tạm dừng học tập, bị kỷ luật từ mức khiển trách trở lên trong học kỳ xét.",
+          "## 2. Tiêu chuẩn phân loại học bổng\nHọc bổng khuyến khích học tập được xét theo từng học kỳ dựa trên kết quả học tập (GPA thang 4) và điểm rèn luyện:\n- **Học bổng loại Xuất sắc:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **3.60 trở lên**. + Điểm rèn luyện đạt từ **90 điểm trở lên** (loại Xuất sắc).",
+          "+ Mức học bổng: Bằng 120% mức học phí chuẩn của học kỳ. - **Học bổng loại Giỏi:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **3.20 đến 3.59**. + Điểm rèn luyện đạt từ **80 đến 89 điểm** (loại Tốt).",
+          "+ Mức học bổng: Bằng 100% mức học phí chuẩn của học kỳ. - **Học bổng loại Khá:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **2.50 đến 3.19**. + Điểm rèn luyện đạt từ **70 đến 79 điểm** (loại Khá).",
+          "+ Mức học bổng: Bằng 80% mức học phí chuẩn của học kỳ. ## 3. Điều kiện tiên quyết bắt buộc\n- Trong học kỳ xét, sinh viên phải đăng ký khối lượng học tập tối thiểu **15 tín chỉ** (không tính học kỳ phụ).",
+          "- Không có bất kỳ học phần nào bị điểm **F** (học lại) trong học kỳ xét. - Danh sách xét duyệt được xếp theo thứ tự ưu tiên từ cao xuống thấp theo GPA cho đến khi hết quỹ học bổng của từng khoa/ngành."
+        ]
+      },
+      "recursive": {
+        "count": 12,
+        "avg_length": 145.58333333333334,
+        "chunks": [
+          "---\ndoc_id: ptit-hoc-bong-khuyen-khich\ntitle: Quy định xét cấp Học bổng khuyến khích học tập PTIT\naudience: student\ndepartment: student-affairs\ncategory: scholarship\nlanguage: vi",
+          "source_url: https://ctsv.ptit.edu.vn/hoc-bong-khuyen-khich-hoc-tap/\nretrieved_at: 2026-09-19\ndocument_version: 2026-CTSV\n---",
+          "# Quy định xét cấp Học bổng khuyến khích học tập PTIT",
+          "## 1. Đối tượng và Điều kiện chung\n- Áp dụng cho sinh viên đại học chính quy đang theo học trong thời gian đào tạo theo kế hoạch chuẩn của khóa học.",
+          "- Không áp dụng cho sinh viên đang trong thời gian tạm dừng học tập, bị kỷ luật từ mức khiển trách trở lên trong học kỳ xét.",
+          "## 2. Tiêu chuẩn phân loại học bổng\nHọc bổng khuyến khích học tập được xét theo từng học kỳ dựa trên kết quả học tập (GPA thang 4) và điểm rèn luyện:\n- **Học bổng loại Xuất sắc:**",
+          "  + Điểm trung bình chung học tập (GPA) đạt từ **3.60 trở lên**.\n  + Điểm rèn luyện đạt từ **90 điểm trở lên** (loại Xuất sắc).\n  + Mức học bổng: Bằng 120% mức học phí chuẩn của học kỳ.",
+          "- **Học bổng loại Giỏi:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **3.20 đến 3.59**.\n  + Điểm rèn luyện đạt từ **80 đến 89 điểm** (loại Tốt).",
+          "  + Mức học bổng: Bằng 100% mức học phí chuẩn của học kỳ.\n- **Học bổng loại Khá:**\n  + Điểm trung bình chung học tập (GPA) đạt từ **2.50 đến 3.19**.",
+          "  + Điểm rèn luyện đạt từ **70 đến 79 điểm** (loại Khá).\n  + Mức học bổng: Bằng 80% mức học phí chuẩn của học kỳ.",
+          "## 3. Điều kiện tiên quyết bắt buộc\n- Trong học kỳ xét, sinh viên phải đăng ký khối lượng học tập tối thiểu **15 tín chỉ** (không tính học kỳ phụ).",
+          "- Không có bất kỳ học phần nào bị điểm **F** (học lại) trong học kỳ xét.\n- Danh sách xét duyệt được xếp theo thứ tự ưu tiên từ cao xuống thấp theo GPA cho đến khi hết quỹ học bổng của từng khoa/ngành."
+        ]
+      }
+    }
+  ],
+  "benchmark_queries": [
+    {
+      "id": 1,
+      "query": "Khối lượng học tập tối thiểu và tối đa sinh viên được đăng ký trong một học kỳ chính là bao nhiêu?",
+      "gold_answer": "Sinh viên Cử nhân tối thiểu 15 tín chỉ, tối đa 25 tín chỉ; Kỹ sư tối thiểu 16 tín chỉ, tối đa 25 tín chỉ (sinh viên xếp loại yếu tối đa 14 tín chỉ).",
+      "top1_doc": "course-registration",
+      "top1_score": 0.3105,
+      "top1_summary": "> Khối metadata phía trên là **template mẫu** cho K4 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_v...",
+      "relevant": "Một phần",
+      "agent_answer": "Dựa trên quy chế PTIT: > Khối metadata phía trên là **template mẫu** cho K4 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_version`, cùng ít nhất một trường hữu ích...",
+      "filtered": false
+    },
+    {
+      "id": 2,
+      "query": "Thời hạn nộp đơn phúc khảo bài thi kết thúc học phần là bao lâu và nộp ở đâu?",
+      "gold_answer": "Trong vòng 03 ngày làm việc kể từ ngày công bố điểm thi chính thức, nộp online trên ứng dụng Slink.",
+      "top1_doc": "course-registration",
+      "top1_score": 0.1058,
+      "top1_summary": "> Khối metadata phía trên là **template mẫu** cho K4 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_v...",
+      "relevant": "Một phần",
+      "agent_answer": "Dựa trên quy chế PTIT: > Khối metadata phía trên là **template mẫu** cho K4 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_version`, cùng ít nhất một trường hữu ích...",
+      "filtered": false
+    },
+    {
+      "id": 3,
+      "query": "Điều kiện điểm GPA và điểm rèn luyện để đạt học bổng khuyến khích học tập loại Giỏi?",
+      "gold_answer": "Điểm GPA từ 3.20 đến 3.59, điểm rèn luyện từ 80 đến 89 điểm (loại Tốt), tối thiểu 15 tín chỉ và không bị điểm F.",
+      "top1_doc": "ptit-noi-quy-thu-vien",
+      "top1_score": 0.0952,
+      "top1_summary": "# Nội quy Thư viện và Khai thác tài nguyên số PTIT  ## 1. Thời gian phục vụ và Quy định vào cửa - **Thời gian mở cửa:** ...",
+      "relevant": "Một phần",
+      "agent_answer": "Dựa trên quy chế PTIT: # Nội quy Thư viện và Khai thác tài nguyên số PTIT ## 1. Thời gian phục vụ và Quy định vào cửa...",
+      "filtered": false
+    },
+    {
+      "id": 4,
+      "query": "Sinh viên mượn sách thư viện tối đa được bao nhiêu cuốn và trong thời hạn bao lâu?",
+      "gold_answer": "Sinh viên được mượn tối đa 05 cuốn sách giáo trình/tài liệu tham khảo, thời hạn 14 ngày/lần mượn, được gia hạn 01 lần thêm 07 ngày.",
+      "top1_doc": "ptit-noi-quy-thu-vien",
+      "top1_score": 0.2118,
+      "top1_summary": "# Nội quy Thư viện và Khai thác tài nguyên số PTIT  ## 1. Thời gian phục vụ và Quy định vào cửa - **Thời gian mở cửa:** ...",
+      "relevant": "Có",
+      "agent_answer": "Dựa trên quy chế PTIT: # Nội quy Thư viện và Khai thác tài nguyên số PTIT ## 1. Thời gian phục vụ và Quy định vào cửa...",
+      "filtered": false
+    },
+    {
+      "id": 5,
+      "query": "Quy định thời hạn giải quyết điểm thi và phúc khảo dành cho sinh viên là bao nhiêu ngày?",
+      "gold_answer": "Sinh viên gửi yêu cầu phúc khảo trong vòng 03 ngày làm việc trên Slink; kết quả chấm lại lệch từ 0.5 điểm trở lên sẽ được điều chỉnh.",
+      "top1_doc": "ptit-phuc-khao-diem-thi",
+      "top1_score": 0.1454,
+      "top1_summary": "# Quy định Phúc khảo bài thi kết thúc học phần PTIT  ## 1. Phạm vi và Đối tượng áp dụng - Quy định áp dụng cho tất cả si...",
+      "relevant": "Có",
+      "agent_answer": "Dựa trên quy chế PTIT: > Khối metadata phía trên là **template mẫu** cho K4 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_version`, cùng ít nhất một trường hữu ích...",
+      "filtered": true
+    }
+  ]
+}
