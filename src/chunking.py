@@ -189,3 +189,63 @@ class ChunkingStrategyComparator:
             "by_sentences": _calc_stats(sentence_chunks),
             "recursive": _calc_stats(recursive_chunks),
         }
+
+
+class HeadingChunker:
+    """
+    Chunk Markdown documents based on section headings (e.g. '## ...').
+    Sections exceeding max_chunk_size are recursively split, prepending the
+    parent heading to each child chunk to preserve contextual grounding.
+    """
+
+    def __init__(
+        self,
+        max_chunk_size: int = 400,
+        fallback_chunker: RecursiveChunker | None = None,
+    ) -> None:
+        self.max_chunk_size = max_chunk_size
+        self.fallback_chunker = fallback_chunker or RecursiveChunker(chunk_size=max_chunk_size)
+
+    def chunk(self, text: str) -> list[str]:
+        if not text:
+            return []
+
+        lines = text.split("\n")
+        sections: list[tuple[str, list[str]]] = []
+        current_heading = ""
+        current_lines: list[str] = []
+
+        for line in lines:
+            if re.match(r"^#{1,4}\s+", line):
+                if current_lines or current_heading:
+                    sections.append((current_heading, current_lines))
+                current_heading = line.strip()
+                current_lines = []
+            else:
+                current_lines.append(line)
+
+        if current_lines or current_heading:
+            sections.append((current_heading, current_lines))
+
+        chunks: list[str] = []
+        for heading, body_lines in sections:
+            body_text = "\n".join(body_lines).strip()
+            full_section = f"{heading}\n\n{body_text}".strip() if heading else body_text
+            if not full_section:
+                continue
+
+            if len(full_section) <= self.max_chunk_size:
+                chunks.append(full_section)
+            else:
+                sub_chunks = self.fallback_chunker.chunk(body_text) if body_text else [heading]
+                for idx, sub in enumerate(sub_chunks):
+                    if heading:
+                        prefix = heading if idx == 0 else f"{heading} (tiếp theo)"
+                        combined = f"{prefix}\n\n{sub}".strip()
+                    else:
+                        combined = sub.strip()
+                    if combined:
+                        chunks.append(combined)
+
+        return chunks
+

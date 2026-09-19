@@ -153,20 +153,34 @@ tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_tr
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân trong file `bench.py` (sử dụng chiến lược riêng `HeadingChunker(max_chunk_size=350)`). Toàn bộ log đo lường được xuất lưu tại `ket_qua_benchmark.txt`.
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|:---|:---|:---|:---:|:---:|:---|
-| 1 | Khối lượng học tập tối thiểu và tối đa sinh viên được đăng ký trong một học kỳ chính là bao nhiêu? | Quy định và Hướng dẫn Đăng ký học phần PTIT: Cử nhân tối thiểu 15 - tối đa 25 TC; Kỹ sư tối thiểu 16 - tối đa 25 TC... | 0.3105 | Có | Cử nhân 15-25 tín chỉ, Kỹ sư 16-25 tín chỉ, học lực yếu tối đa 14 tín chỉ. |
-| 2 | Thời hạn nộp đơn phúc khảo bài thi kết thúc học phần là bao lâu và nộp ở đâu? | Quy định Phúc khảo bài thi kết thúc học phần: nộp trong 03 ngày làm việc kể từ ngày công bố điểm trên Slink... | 0.1058 | Có | Thời hạn 03 ngày làm việc trên ứng dụng Slink. |
-| 3 | Điều kiện điểm GPA và điểm rèn luyện để đạt học bổng khuyến khích học tập loại Giỏi? | Quy định xét cấp Học bổng khuyến khích học tập: Loại Giỏi yêu cầu GPA từ 3.20 đến 3.59, điểm rèn luyện 80-89... | 0.0952 | Có | GPA từ 3.20 đến 3.59, điểm rèn luyện từ 80 đến 89 điểm (loại Tốt). |
-| 4 | Sinh viên mượn sách thư viện tối đa được bao nhiêu cuốn và trong thời hạn bao lâu? | Nội quy Thư viện và Khai thác tài nguyên số PTIT: Sinh viên mượn tối đa 05 cuốn, thời hạn 14 ngày/lần... | 0.2118 | Có | Tối đa 05 cuốn sách, thời hạn 14 ngày, gia hạn 01 lần 07 ngày. |
-| 5 | Quy định thời hạn giải quyết điểm thi và phúc khảo dành cho sinh viên là bao nhiêu ngày? *(có metadata_filter)* | `metadata_filter={'audience': 'student'}` trích xuất chính xác quy định phúc khảo học sinh viên trong 03 ngày, loại bỏ quy định nộp điểm 07 ngày của giảng viên. | 0.1454 | Có | Nộp đơn trong 03 ngày làm việc trên Slink, kết quả điều chỉnh nếu lệch từ 0.5 điểm trở lên. |
+> [!NOTE]
+> **Đặc điểm mô hình Embedding đo lường:** Chạy với `MockEmbedder` (băm MD5 chuỗi ký tự, không mã hóa ngữ nghĩa tiềm ẩn). Do đó, điểm tương đồng cosine (score) bị chi phối bởi hash ký tự bề mặt. Trọng tâm đánh giá được đặt vào: **cấu trúc và số lượng chunk (53 chunks)**, **độ dài trung bình (~200 ký tự)**, **độ mạch lạc nguyên vẹn của từng điều khoản (coherence)**, và **sự khác biệt giữa chấm mức Doc-level so với Content-level**.
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5** / 5
+### Bảng Kết Quả Thực Tế (Đối Chiếu 2 Mức: Doc-Level & Content-Level)
+
+| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (doc_id & score) | Mức 1: Gold Doc in Top-3? | Mức 2: Chứa chuỗi đặc trưng đáp án? | Điểm Rubric (/2) |
+|:---|:---|:---|:---:|:---:|:---:|
+| 1 | Khối lượng học tập tối thiểu và tối đa sinh viên được đăng ký trong một học kỳ chính là bao nhiêu tín chỉ? | `ptit-quy-dinh-nhap-diem-giang-vien#4` (0.3161) | Không (nhiễu do MD5) | Chưa | 0 / 2 |
+| 2 | Điều kiện điểm trung bình GPA và điểm rèn luyện để đạt học bổng khuyến khích học tập loại Giỏi là gì? | `ptit-dang-ky-hoc-phan#0` (0.2029) | Không (nhiễu do MD5) | Chưa | 0 / 2 |
+| 3 | Quy định nộp đơn và thời hạn phúc khảo bài thi kết thúc học phần được thực hiện như thế nào? | `ptit-chuan-dau-ra-ngoai-ngu#1` (0.2772) <br>*(Gold `ptit-phuc-khao-diem-thi#0` xếp Top 3 - 0.1680)* | **Có (Top 3)** | **Chưa (Trúng chunk #0 mở đầu, chưa lọt chunk #2/#3 chứa "03 ngày" & "Slink")** | 0 / 2 |
+| 4 | Những đối tượng sinh viên nào được ưu tiên xét duyệt chỗ ở trong Ký túc xá? | `ptit-hoc-bong-khuyen-khich#0` (0.3358) | Không (nhiễu do MD5) | Chưa | 0 / 2 |
+| 5 | Thời hạn nộp và giải quyết điểm thi kết thúc học phần là bao nhiêu ngày làm việc? *(Lọc: `audience: student`)* | `ptit-hoc-phi-va-chinh-sach#1` (0.1996) | Không (nhiễu do MD5) | Chưa | 0 / 2 |
+
+**Phân tích phát hiện quan trọng nhất (Chấm 2 mức):**
+- Ở **Câu hỏi #3**, nếu chỉ chấm ngây thơ ở **Mức 1 (Doc-level)** thì hệ thống tính là "ĐẠT" vì tài liệu vàng `ptit-phuc-khao-diem-thi` đã lọt vào Top 3 (rank 3, score 0.1680).
+- Tuy nhiên, khi kiểm tra ở **Mức 2 (Content-level)**: chunk lọt vào lại là chunk `#0` (phần tiêu đề và căn cứ pháp lý mở đầu `# Quy định Phúc khảo...`), hoàn toàn **không chứa thông tin mốc 03 ngày làm việc hay ứng dụng Slink** nằm ở section 2 và 3. Nếu đưa chunk này cho LLM, Agent sẽ bị thiếu dữ liệu và dẫn đến ảo giác (hallucination).
+- **Kết luận:** Sự chênh lệch giữa kiểm tra Doc-level và Content-level chứng minh rằng việc đánh giá RAG bắt buộc phải đo lường sự hiện diện của chuỗi đặc trưng chứa đáp án, chứ không thể chỉ kiểm tra tên file nguồn.
+
+**Đánh giá về số lượng và độ mạch lạc của chunk (HeadingChunker):**
+- Phân tách 10 tài liệu thành tổng cộng **53 chunks** (trung bình 5.3 chunks/tài liệu).
+- Mỗi chunk đại diện cho một điều khoản hoặc section hoàn chỉnh (như `## 1. Đối tượng...`, `## 2. Tiêu chuẩn...`).
+- Nhờ cơ chế gắn `prefix = f"{heading} (tiếp theo)"`, các mảnh con khi bị chia nhỏ đệ quy vẫn giữ trọn được ngữ cảnh chủ đề của điều khoản cha, không bị đứt đoạn ý nghĩa như `FixedSizeChunker`.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> Điều hay nhất là tác dụng rõ rệt của **Metadata Filtering (lọc tiền xử lý)**. Trong bộ quy chế đại học, cùng nói về "thời hạn điểm thi" nhưng giảng viên có thời hạn chấm 07 ngày, còn sinh viên có thời hạn phúc khảo 03 ngày. Nhờ bộ lọc `audience: student`, hệ thống đã loại bỏ hoàn toàn tài liệu gây nhiễu của giảng viên và cung cấp đúng thông tin sinh viên cần.
+> 1. **Hiệu quả của Metadata Pre-filtering:** Ở Câu 5, khi thực hiện A/B testing (chạy có filter và không filter), bộ lọc `metadata_filter={'audience': 'student'}` đã loại bỏ ngay lập tức các tài liệu của giảng viên (`ptit-quy-dinh-nhap-diem-giang-vien`) và tài liệu chung (`library-services`), ngăn chặn tình trạng trả lời nhầm đối tượng.
+> 2. **Sự cần thiết của Dense Semantic Embeddings:** `MockEmbedder` chỉ hữu dụng để kiểm thử pipeline lập trình và unit tests (42/42 tests). Khi vào môi trường thực tế, bắt buộc phải dùng các mô hình Sentence Transformers đa ngữ (như `paraphrase-multilingual-MiniLM-L12-v2` hoặc `multilingual-e5-large`) để nắm bắt ngữ nghĩa thực sự thay vì băm MD5 chuỗi ký tự.
 
 ---
 

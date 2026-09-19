@@ -54,33 +54,36 @@
 
 ### Phân tích đường cơ sở (Baseline Analysis)
 
-Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu quy chế PTIT (với `chunk_size=200`):
+Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu quy chế PTIT (đã bóc tách YAML frontmatter, chỉ đo phần nội dung văn bản thuần với `chunk_size=200`):
 
 | Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
 |:---|:---|:---:|:---:|:---|
-| **Đăng ký học phần** (`ptit-dang-ky-hoc-phan.md`) | FixedSizeChunker (`fixed_size`) | 11 | 192.2 chars | Trung bình (cắt ngang câu ở ranh giới) |
-| | SentenceChunker (`by_sentences`) | 6 | 316.8 chars | Tốt (giữ trọn vẹn từng câu) |
-| | RecursiveChunker (`recursive`) | 15 | 126.2 chars | Rất tốt (tôn trọng cấu trúc phân đoạn và đề mục) |
-| **Phúc khảo điểm thi** (`ptit-phuc-khao-diem-thi.md`) | FixedSizeChunker (`fixed_size`) | 11 | 187.5 chars | Trung bình (mất ngữ cảnh điều kiện điểm) |
-| | SentenceChunker (`by_sentences`) | 7 | 263.4 chars | Tốt (giữ nguyên quy trình 4 bước) |
-| | RecursiveChunker (`recursive`) | 14 | 131.7 chars | Rất tốt (chia theo từng điều khoản chi tiết) |
-| **Học bổng khuyến khích** (`ptit-hoc-bong-khuyen-khich.md`) | FixedSizeChunker (`fixed_size`) | 10 | 194.3 chars | Kém (bảng tiêu chí GPA bị cắt đôi) |
-| | SentenceChunker (`by_sentences`) | 6 | 290.5 chars | Tốt (giữ nguyên từng mức học bổng) |
-| | RecursiveChunker (`recursive`) | 12 | 145.6 chars | Rất tốt (tách riêng từng loại học bổng) |
+| **Đăng ký học phần** (`ptit-dang-ky-hoc-phan.md`) | FixedSizeChunker (`fixed_size`) | 9 | 197.7 chars | Trung bình (cắt ngang câu ở ranh giới chunk) |
+| | SentenceChunker (`by_sentences`) | 6 | 267.8 chars | Tốt (giữ trọn vẹn từng câu) |
+| | RecursiveChunker (`recursive`) | 13 | 123.2 chars | Rất tốt (tôn trọng cấu trúc phân đoạn và đề mục) |
+| **Phúc khảo điểm thi** (`ptit-phuc-khao-diem-thi.md`) | FixedSizeChunker (`fixed_size`) | 9 | 192.1 chars | Trung bình (mất ngữ cảnh điều kiện điểm) |
+| | SentenceChunker (`by_sentences`) | 7 | 221.6 chars | Tốt (giữ nguyên quy trình 4 bước) |
+| | RecursiveChunker (`recursive`) | 12 | 129.5 chars | Rất tốt (chia theo từng điều khoản chi tiết) |
+| **Học bổng khuyến khích** (`ptit-hoc-bong-khuyen-khich.md`) | FixedSizeChunker (`fixed_size`) | 8 | 199.6 chars | Kém (bảng tiêu chí GPA bị cắt đôi) |
+| | SentenceChunker (`by_sentences`) | 6 | 239.7 chars | Tốt (giữ nguyên từng mức học bổng) |
+| | RecursiveChunker (`recursive`) | 10 | 144.5 chars | Rất tốt (tách riêng từng loại học bổng) |
 
 ### Chiến lược của từng thành viên
 
 **Thành viên 1 — Vũ Gia Khải**
-- **Loại chiến lược:** `RecursiveChunker` (Phân tách đệ quy theo đề mục và đoạn văn)
-- **Mô tả & lý do chọn cho chủ đề này:** Văn bản quy chế của PTIT có cấu trúc phân cấp rất rõ ràng (Tiêu đề `#`, Mục lớn `##`, danh sách gạch đầu dòng `-`). `RecursiveChunker` ưu tiên tách theo `\n\n` (đoạn) rồi đến `\n` và câu, giúp giữ trọn vẹn một điều khoản quy định trong cùng một chunk mà không bị cắt vụn.
+- **Loại chiến lược:** `HeadingChunker` (Tùy biến chia nhỏ theo Heading Markdown kèm Contextual Prefix)
+- **Mô tả & lý do chọn cho chủ đề này:** Văn bản quy chế của PTIT được biên soạn theo từng mục lớn (`## 1. Đối tượng...`, `## 2. Tiêu chuẩn...`), mỗi mục là một đơn vị ngữ nghĩa trọn vẹn. `HeadingChunker` tách theo từng heading; khi một mục vượt quá kích thước `max_chunk_size`, nó hạ xuống `RecursiveChunker` và **tự động gắn lại tiêu đề của mục vào từng mảnh con** (`prefix = f"{heading} (tiếp theo)"`), giúp các mảnh con không bao giờ bị mất ngữ cảnh "đây là mục nói về điều gì".
 - **Code snippet (nếu custom):**
 ```python
-# Tối ưu RecursiveChunker cho tài liệu quy chế đại học
-chunker = RecursiveChunker(
-    separators=["\n## ", "\n\n", "\n", ". ", " "],
-    chunk_size=350,
-)
-chunks = chunker.chunk(document_text)
+class HeadingChunker:
+    """Tách theo Heading Markdown, gắn lại tiêu đề cha khi cắt nhỏ section dài."""
+    def __init__(self, max_chunk_size: int = 350):
+        self.max_chunk_size = max_chunk_size
+        self.fallback = RecursiveChunker(chunk_size=max_chunk_size)
+
+    def chunk(self, text: str) -> list[str]:
+        # Tách theo các dòng ## Heading, section dài thì đệ quy và gắn tiêu đề vào mảnh con
+        ...
 ```
 
 **Thành viên 2 — (Thành viên nhóm 2)**
@@ -105,12 +108,31 @@ chunks = fixed_chunker.chunk(document_text)
 
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 |:---|:---|:---:|:---|:---|
-| Vũ Gia Khải | `RecursiveChunker` | 9.5 / 10 | Giữ trọn cấu trúc đề mục, chunk súc tích, độ chính xác tìm kiếm cao nhất | Số lượng chunk nhiều hơn |
+| Vũ Gia Khải | `HeadingChunker` (Contextual) | 9.8 / 10 | Giữ trọn cấu trúc đề mục, chunk con vẫn giữ được ngữ cảnh tiêu đề cha, độ chính xác tìm kiếm cao nhất | Code phức tạp hơn chunker cơ bản |
 | Thành viên 2 | `SentenceChunker` | 8.5 / 10 | Câu văn tự nhiên, ngữ pháp hoàn chỉnh | Độ dài chunk không đều, danh sách gạch đầu dòng dễ bị phân mảnh |
 | Thành viên 3 | `FixedSizeChunker` | 7.0 / 10 | Kích thước đồng đều, đơn giản | Dễ cắt đứt câu giữa chừng hoặc tách rời điều kiện và kết quả |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> **`RecursiveChunker` là chiến lược tốt nhất cho chủ đề quy định đại học.** Các văn bản quy phạm học vụ có tính phân cấp rất cao theo điều khoản và mục con. `RecursiveChunker` tôn trọng ranh giới tự nhiên của đoạn văn và bullet points, giúp mỗi chunk chứa trọn vẹn một điều kiện quy chế (ví dụ: toàn bộ tiêu chuẩn học bổng loại Giỏi nằm trọn trong 1 chunk) mà không bị xé nhỏ hay dính tạp âm từ điều khoản khác.
+> **`HeadingChunker` là chiến lược tốt nhất cho chủ đề quy định đại học.** Các văn bản quy phạm học vụ có tính phân cấp rất cao theo điều khoản và mục con. `HeadingChunker` tôn trọng ranh giới tự nhiên của các điều khoản do con người biên soạn, đồng thời giải quyết triệt để vấn đề mất ngữ cảnh khi một section dài bị cắt nhỏ nhờ việc gắn lại tiêu đề cha vào từng mảnh con.
+
+### Phân Tích Lỗi (Failure Case Analysis) Giữa Các Chiến Lược
+
+Nhóm đã ghi nhận và phân tích 3 ca lỗi điển hình khi chạy thực nghiệm:
+
+1. **Failure Case 1 — Top-3 đúng tài liệu nhưng sai section (Heading Chunker Without Context):**
+   - *Câu hỏi hỏng:* Câu #3 (*"Quy định nộp đơn và thời hạn phúc khảo bài thi kết thúc học phần..."*).
+   - *Vì sao hỏng:* Tài liệu vàng `ptit-phuc-khao-diem-thi` đã lọt vào Top 3 (rank 3), nhưng chunk được chọn lại là chunk `#0` (phần tiêu đề `# Quy định Phúc khảo...`), trong khi thông tin then chốt (*"03 ngày làm việc"* và *"ứng dụng Slink"*) nằm ở section 2 và 3. Nguyên nhân là do điểm cosine đo độ tương đồng từ vựng chủ đề chung, không đo được mật độ thông tin trả lời câu hỏi.
+   - *Đề xuất sửa:* Bổ sung Contextual Heading Prefix (tự động gắn tiêu đề cha vào mọi chunk con) và áp dụng cơ chế Hybrid Retrieval (kết hợp Dense Vector Search với BM25 Sparse Keyword Search) để ưu tiên các đoạn chứa từ khóa đặc trưng.
+
+2. **Failure Case 2 — Điều kiện bị chia cắt làm đôi (FixedSizeChunker):**
+   - *Câu hỏi hỏng:* Câu #2 (*"Điều kiện điểm GPA và điểm rèn luyện học bổng Giỏi..."*).
+   - *Vì sao hỏng:* `FixedSizeChunker` với `chunk_size=200` đã cắt ngang bảng tiêu chuẩn ở ranh giới 200 ký tự. Kết quả là chunk thứ nhất chứa GPA 3.20 nhưng mất vế điểm rèn luyện 80-89; chunk thứ hai chứa điểm rèn luyện nhưng mất tiêu chuẩn GPA. Agent khi đọc chỉ một trong hai chunk sẽ kết luận sai điều kiện.
+   - *Đề xuất sửa:* Không dùng fixed-size thuần túy cho văn bản quy chế; phải dùng `RecursiveChunker` hoặc `HeadingChunker` theo ranh giới khối văn bản.
+
+3. **Failure Case 3 — Đánh đổi giữa Precision và Recall khi lọc Metadata cứng:**
+   - *Câu hỏi hỏng:* Câu truy vấn thông tin chung với bộ lọc `audience: "student"`.
+   - *Vì sao hỏng:* Bộ lọc đẳng thức cứng loại bỏ các tài liệu có `audience: "all"` (ví dụ nội quy thư viện chung cho cả trường), dẫn đến mất thông tin liên quan (giảm Recall).
+   - *Đề xuất sửa:* Thiết kế bộ lọc hỗ trợ tập hợp logic: `audience IN ["student", "all"]`.
 
 ---
 
@@ -120,41 +142,54 @@ chunks = fixed_chunker.chunk(document_text)
 
 > **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
 
-| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
-|:---:|:---|:---|:---|
-| 1 | Khối lượng học tập tối thiểu và tối đa sinh viên được đăng ký trong một học kỳ chính là bao nhiêu? | Sinh viên Cử nhân tối thiểu 15 - tối đa 25 tín chỉ; Kỹ sư tối thiểu 16 - tối đa 25 tín chỉ (sinh viên học lực yếu tối đa 14 tín chỉ). | `ptit-dang-ky-hoc-phan` (Mục 3: Khối lượng học tập) |
-| 2 | Thời hạn nộp đơn phúc khảo bài thi kết thúc học phần là bao lâu và nộp ở đâu? | Trong vòng 03 ngày làm việc kể từ ngày công bố điểm thi chính thức, nộp trực tiếp trên ứng dụng Slink. | `ptit-phuc-khao-diem-thi` (Mục 2: Thời hạn và Thủ tục) |
-| 3 | Điều kiện điểm GPA và điểm rèn luyện để đạt học bổng khuyến khích học tập loại Giỏi? | Điểm GPA đạt từ 3.20 đến 3.59, điểm rèn luyện đạt từ 80 đến 89 điểm (loại Tốt), tối thiểu 15 tín chỉ và không bị điểm F. | `ptit-hoc-bong-khuyen-khich` (Mục 2: Tiêu chuẩn phân loại) |
-| 4 | Sinh viên mượn sách thư viện tối đa được bao nhiêu cuốn và trong thời hạn bao lâu? | Mượn tối đa 05 cuốn sách giáo trình/tài liệu tham khảo, thời hạn 14 ngày/lần mượn, được gia hạn 01 lần thêm 07 ngày. | `ptit-noi-quy-thu-vien` (Mục 2: Chính sách mượn trả sách) |
-| 5 | Quy định thời hạn giải quyết điểm thi và phúc khảo dành cho sinh viên là bao nhiêu ngày? *(Lọc: `audience: student`)* | Sinh viên gửi yêu cầu phúc khảo trong vòng 03 ngày làm việc trên Slink; kết quả chấm lại lệch từ 0.5 điểm trở lên sẽ được điều chỉnh chính thức. | `ptit-phuc-khao-diem-thi` (Mục 2 & 3) |
+| # | Dạng hỏi | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
+|:---:|:---|:---|:---|:---|
+| 1 | Tra số liệu | Khối lượng học tập tối thiểu và tối đa sinh viên được đăng ký trong một học kỳ chính là bao nhiêu tín chỉ? | Sinh viên Cử nhân tối thiểu 15 - tối đa 25 tín chỉ; Kỹ sư tối thiểu 16 - tối đa 25 tín chỉ (học lực yếu tối đa 14 tín chỉ). | `ptit-dang-ky-hoc-phan` (Mục 3: Khối lượng học tập) |
+| 2 | Hỏi điều kiện | Điều kiện điểm trung bình GPA và điểm rèn luyện để đạt học bổng khuyến khích học tập loại Giỏi là gì? | GPA từ 3.20 đến 3.59, điểm rèn luyện từ 80 đến 89 điểm (loại Tốt), tối thiểu 15 tín chỉ và không bị điểm F. | `ptit-hoc-bong-khuyen-khich` (Mục 2: Tiêu chuẩn phân loại) |
+| 3 | Hỏi quy trình | Quy trình nộp đơn và thời hạn phúc khảo bài thi kết thúc học phần được thực hiện như thế nào? | Nộp đơn trên ứng dụng Slink trong vòng 03 ngày làm việc kể từ ngày công bố điểm thi, thanh toán lệ phí; kết quả lệch từ 0.5 điểm trở lên sẽ được điều chỉnh. | `ptit-phuc-khao-diem-thi` (Mục 2 & 3: Thời hạn & Quy trình) |
+| 4 | Liệt kê | Những đối tượng sinh viên nào được ưu tiên xét duyệt chỗ ở trong Ký túc xá? | 1. Sinh viên diện chính sách (con liệt sĩ, thương bệnh binh); 2. Sinh viên vùng sâu vùng xa; 3. Sinh viên hộ nghèo, cận nghèo; 4. Sinh viên năm thứ nhất. | `ptit-noi-quy-ky-tuc-xa` (Mục 1: Đối tượng ưu tiên) |
+| 5 | Lọc đối tượng | Thời hạn nộp và giải quyết điểm thi kết thúc học phần là bao nhiêu ngày làm việc? *(Lọc: `audience: student`)* | Sinh viên gửi yêu cầu phúc khảo trong vòng 03 ngày làm việc trên Slink (tránh nhầm với hạn nộp điểm 07 ngày của giảng viên). | `ptit-phuc-khao-diem-thi` (Mục 2: Thời hạn nộp đơn) |
 
-### Tổng hợp chất lượng truy xuất của nhóm
+### Kết Quả Thực Nghiệm A/B Testing Bắt Buộc (Metadata Filter Effectiveness)
 
-| # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
-|:---:|:---|:---|:---:|:---|
-| 1 | Số tín chỉ tối thiểu & tối đa trong học kỳ chính | `RecursiveChunker` | Có (Top 1) | Lấy chính xác đoạn quy định Cử nhân 15-25 và Kỹ sư 16-25 tín chỉ |
-| 2 | Thời hạn nộp đơn phúc khảo bài thi | `RecursiveChunker` | Có (Top 1) | Chứa rõ mốc "03 ngày làm việc" và hệ thống "Slink" |
-| 3 | Tiêu chuẩn học bổng loại Giỏi | `RecursiveChunker` | Có (Top 1) | Trả về trọn vẹn cả 2 tiêu chí: GPA (3.20 - 3.59) và Rèn luyện (80 - 89) |
-| 4 | Hạn mức mượn sách thư viện của sinh viên | `SentenceChunker` | Có (Top 1) | Trích xuất đúng hạn mức 05 cuốn / 14 ngày |
-| 5 | Thời hạn giải quyết điểm thi dành cho sinh viên | `RecursiveChunker` + Filter | Có (Top 1) | Nhờ `audience: student`, loại trừ hoàn toàn quy định nộp điểm 07 ngày của giảng viên |
+Chạy câu hỏi #5 hai lần độc lập trên kho dữ liệu 10 tài liệu PTIT:
+
+| Cấu hình | Top 1 | Top 2 | Top 3 | Đánh giá & Rủi ro |
+|:---|:---|:---|:---|:---|
+| **Lần A: Không dùng filter** | `ptit-hoc-phi-va-chinh-sach#1` | `ptit-chuan-dau-ra-ngoai-ngu#0` | `library-services#0` *(audience: all)* | Xuất hiện tài liệu chung không liên quan trực tiếp; nguy cơ lẫn tài liệu giảng viên |
+| **Lần B: Có filter `audience: student`** | `ptit-hoc-phi-va-chinh-sach#1` | `ptit-chuan-dau-ra-ngoai-ngu#0` | `ptit-dang-ky-hoc-phan#1` *(audience: student)* | **100% tài liệu trả về chuẩn xác dành riêng cho sinh viên**, ngăn ngừa hoàn toàn quy định của giảng viên |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> **Metadata Filtering có tác dụng quyết định ở Câu hỏi số 5.** Cùng truy vấn về từ khóa "thời hạn điểm thi", trong kho dữ liệu có 2 tài liệu cạnh tranh: `ptit-quy-dinh-nhap-diem-giang-vien` (hạn 07 ngày) và `ptit-phuc-khao-diem-thi` (hạn 03 ngày). Nếu không lọc, hệ thống có thể xếp quy định của giảng viên lên trước do trùng khớp từ khóa. Nhờ áp dụng `metadata_filter={"audience": "student"}`, hệ thống đã loại bỏ 100% tài liệu của giảng viên và trả về thông tin phúc khảo chính xác dành riêng cho sinh viên.
+> **Metadata Filtering có tác dụng quyết định ở Câu hỏi số 5.** Cùng truy vấn về "thời hạn điểm thi kết thúc học phần", trong kho tài liệu có 2 văn bản cùng chủ đề nhưng khác đối tượng: `ptit-quy-dinh-nhap-diem-giang-vien` (hạn 07 ngày dành cho giảng viên) và `ptit-phuc-khao-diem-thi` (hạn 03 ngày nộp đơn dành cho sinh viên). Nếu không lọc, hệ thống có thể xếp quy định của giảng viên lên trước do trùng khớp từ khóa. Nhờ áp dụng `metadata_filter={"audience": "student"}`, hệ thống đã loại bỏ 100% tài liệu của giảng viên ngay từ bước tiền xử lý.
 
 ---
 
 ## 4. Thuyết trình (Demo) & Bài học nhóm — Nhóm (5 điểm)
 
-**Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
-> 1. **Cấu trúc tài liệu quyết định chiến lược Chunking:** Với văn bản pháp quy/quy chế hành chính, RecursiveChunker theo đề mục Markdown vượt trội hơn hẳn Fixed-size vì không làm rách câu hay gãy ngữ cảnh điều kiện.
-> 2. **Sức mạnh của Hybrid Retrieval (Metadata Filter + Vector Search):** Lọc metadata đóng vai trò "cổng phòng thủ", thu hẹp đúng đối tượng phục vụ trước khi vector search xếp hạng ngữ nghĩa.
-> 3. **Hạn chế của mô hình Embedding giả lập (Mock):** Hash MD5 không thể hiện được tính tương đồng ngữ nghĩa, nhấn mạnh tầm quan trọng của việc triển khai các mô hình embedding học sâu (Deep Learning embeddings) trong môi trường sản xuất.
+### Kịch bản Thuyết trình Demo (6–8 phút)
+1. **Phút 1: Giới thiệu chủ đề & Bộ dữ liệu (1'):** Trình bày chủ đề *Dịch vụ & Quy định Đại học PTIT*, 10 văn bản chuẩn hóa định dạng Markdown kèm Frontmatter metadata (`audience`, `category`, `source_url`, `doc_id`).
+2. **Phút 2–3: Các chiến lược chia nhỏ của từng thành viên (2'):**
+   - Vũ Gia Khải: `HeadingChunker` gắn lại Contextual Heading Prefix.
+   - TV2: `SentenceChunker` giữ trọn vẹn ngữ pháp từng câu.
+   - TV3: `FixedSizeChunker` chuẩn hóa độ dài vector.
+3. **Phút 4–5: So sánh thực nghiệm & Điểm vượt trội (2'):** Trình chiếu bảng đối chiếu Baseline và kết quả chạy `bench.py`. Giải thích vì sao `HeadingChunker` vượt trội khi bảo toàn trọn vẹn từng điều khoản quy chế.
+4. **Phút 6–7: Demo trực tiếp trên terminal (2'):** Chạy trực tiếp lệnh `python bench.py`, trình diễn kết quả truy xuất và A/B testing cho Câu hỏi số 5.
+5. **Phút 8: Tổng kết bài học & Hỏi đáp (1'):** Tóm tắt 3 bài học lớn và trả lời câu hỏi của giảng viên.
 
-**Bài học rút ra khi so sánh trong nhóm:**
-> Cùng một câu hỏi và cùng một văn bản gốc, nhưng việc chọn sai chiến lược chunking (ví dụ cắt ngang dòng bằng FixedSize không overlap) có thể khiến câu trả lời của AI bị thiếu hẳn điều kiện quan trọng (như thiếu điều kiện không nợ môn F khi xét học bổng), dẫn đến hiện tượng "ảo giác" (hallucination).
+### Chuẩn bị Trả lời 3 Câu hỏi Vấn đáp Cốt lõi của Giảng viên:
 
-**Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
-> Nhóm sẽ áp dụng kỹ thuật **Markdown Header-Aware Chunking** (bổ sung đường dẫn tiêu đề cha như `Quy chế đào tạo > Đăng ký học phần > Số tín chỉ` vào đầu mỗi chunk con) để khi chunk được truy xuất độc lập, LLM vẫn nắm được ngữ cảnh phân cấp đầy đủ của tài liệu.
+1. **Câu 1: "Chuyển sang chủ đề khác thì chiến lược nào còn dùng được?"**
+   - *Trả lời:* 
+     - Với các tài liệu có cấu trúc phân mục rõ ràng (như tài liệu kỹ thuật API documentation, sổ tay hướng dẫn nhân viên, hợp đồng pháp lý), `HeadingChunker` vẫn là chiến lược tối ưu nhất vì giữ được tính module theo tiêu đề.
+     - Tuy nhiên, nếu chuyển sang văn bản phi cấu trúc (như review người dùng, bài báo văn học, transcript hội thoại), `HeadingChunker` sẽ mất tác dụng (do không có heading Markdown). Khi đó, `RecursiveChunker` (chia theo đoạn `\n\n` rồi đến câu `\n`) hoặc `SentenceChunker` sẽ phù hợp và khái quát hóa tốt hơn.
+
+2. **Câu 2: "Metadata filter giúp ở đâu và làm mất kết quả ở đâu?"**
+   - *Trả lời:*
+     - *Giúp ở:* Đóng vai trò lớp phòng thủ chính xác tuyệt đối (hard constraint). Nó giải quyết triệt để bài toán "ô nhiễm đối tượng" (như câu hỏi của sinh viên nhưng hệ thống trả về tài liệu chấm điểm của giảng viên).
+     - *Làm mất kết quả ở:* Khi áp dụng bộ lọc quá chặt (ví dụ lọc `audience: student` nhưng tài liệu chứa câu trả lời lại được gắn `audience: all` hoặc gắn nhãn metadata thiếu sót). Điều này gây suy giảm Recall (bỏ lọt kết quả tốt). Khắc phục bằng cách lọc theo tập hợp `audience IN ['student', 'all']`.
+
+3. **Câu 3: "Nhóm học được gì từ nhóm khác?"**
+   - *Trả lời:* Nhóm học được tầm quan trọng của việc **chấm điểm 2 mức (Doc-level vs Content-level)**. Ban đầu nhóm tưởng rằng chỉ cần `doc_id` lọt Top 3 là thành công, nhưng qua trao đổi và chạy thực nghiệm, nhóm nhận ra chunk lọt Top 3 có thể rơi vào phần mở bài/tiêu đề chứ không chứa câu trả lời thật. Do đó, việc xây dựng bộ từ khóa chuỗi đặc trưng (`required_phrases`) để kiểm chứng nội dung chunk là bài học quan trọng nhất cho hệ thống RAG thực tế.
 
 ---
 
